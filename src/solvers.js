@@ -16,8 +16,63 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  var solution = new Board({'n': n});
+  var matrixArr = [];
+  var rookCount = 0;
+  var permutations = [];
 
+  // for (var row = 0; row < solution.length; row++) {
+  //   for (var column = 0; column < solution.length; column++) {
+  //     var currentSquare = solution[row][column];
+  //     currentSquare = 1;
+  //     matrixArr.push(solution);
+  //   }
+  // }
+
+  // var innerFunction(board){
+  //   board = board || makeEmptyMatrix(n);
+
+  //   if (!board.hasAnyRooksConflicts()) {
+  //     permutations.push[board];
+  //   }
+  //   matrixArray.forEach(function(topBoard){
+  //     for (var row = 0; row < solution.length; row++) {
+  //       for (var column = 0; column < solution.length; column++) {
+  //         var currentSquare = board[row][column];
+
+  //       }
+  //     }
+  //   })
+  // }
+  // innerFunction(solution)
+
+  var boardBuilder = function(board) {
+    board = board || makeEmptyMatrix(n);
+    if (rookCount === n) {
+      return board;
+    }
+    for (var row = 0; row < board.length; row++) {
+      for (var column = 0; column < board.length; column++) {
+        var currentSquare = board[row][column];
+        if (!currentSquare) {
+          currentSquare = 1;
+          rookCount++
+        }
+        //check conflicts true false
+        //if true
+          //remove rook and rookCount--
+        if (board.hasAnyColConflicts() || board.hasAnyRowConflicts()) {
+          currentSquare = 0;
+          rookCount--;
+        } else {
+        //if false
+          //recursively call innerFunction on current board
+          boardBuilder(board);
+        }
+      }
+    }
+  }
+  var solution = boardBuilder();
   console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
   return solution;
 };
