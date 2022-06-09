@@ -113,14 +113,30 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-
+      var board = this.rows();
+      var rowIndex = 0;
       var count = 0;
+
+      for(var i = 0; i < board.length; i++){
+        if (board[rowIndex][colIndex]) {
+          rowIndex++;
+          return true;
+        }
+      }
 
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var board = this.rows();
+      //loop through each column and run hasColConflictAt on the current row index
+      for(var i = 0; i < board.length; i++){
+        //if current row index has conflict, return true immediately
+        if(this.hasColConflictAt(i)){
+          return true;
+        }
+      }
       return false; // fixme
     },
 
@@ -131,11 +147,41 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var board = this.rows();
+      var index = majorDiagonalColumnIndexAtFirstRow;
+      var tracker = 0;
+      if (index > 0) {
+        for (var i = 0; i < board.length; i++) {
+          if (board[i][index] > 0) {
+            tracker++
+          }
+          index++
+        }
+      } else {
+        var negIndex = Math.abs(index);
+        for (var j = 0; j < board.length; j++) {
+          if (board[negIndex][j] > 0) {
+            tracker++
+          }
+          negIndex++
+        }
+      }
+      return tracker ? true : false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var board = this.rows();
+      //
+      //var startIndex = 1 - board.length;
+      // var endIndex = board.length - 1;
+
+      // console.log(startIndex);
+      // for(var startIndex = 1 - board.length; startIndex < endIndex; startIndex++){
+      //   if(this.hasMajorDiagonalConflictAt(startIndex)){
+      //     return true;
+      //   }
+      // }
       return false; // fixme
     },
 
