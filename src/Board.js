@@ -203,11 +203,30 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var board = this.rows();
+      var index = minorDiagonalColumnIndexAtFirstRow;
+      var tracker = 0;
+      for (var row = 0; row < board.length; row++) {
+        if (board[row][index] === 1) {
+          tracker++
+        }
+        index--
+      }
+      return tracker > 1 ? true : false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var board = this.rows();
+      var startIndex = board.length * 2 - 1;
+      var endIndex = board.length - 1;
+
+      while (startIndex > endIndex){
+        if(this.hasMinorDiagonalConflictAt(startIndex)){
+          return true;
+        }
+        startIndex--;
+      }
       return false; // fixme
     }
 
